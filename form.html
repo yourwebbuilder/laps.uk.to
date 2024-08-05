@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ludo Game</title>
+  <style>
+    /* Add your CSS styling here */
+    .board {
+      display: flex;
+      flex-wrap: wrap;
+      width: 360px;
+      height: 360px;
+      border: 2px solid black;
+    }
+    .square {
+      width: 33.33%;
+      height: 33.33%;
+      box-sizing: border-box;
+      border: 1px solid black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .player {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <div class="board" id="board">
+    <!-- Squares will be added dynamically here -->
+  </div>
+
+  <script>
+    // JavaScript logic goes here
+    const board = document.getElementById('board');
+    const squares = [];
+
+    // Initialize the board with squares
+    for (let i = 0; i < 16; i++) {
+      const square = document.createElement('div');
+      square.className = 'square';
+      square.dataset.position = i;
+      board.appendChild(square);
+      squares.push(square);
+    }
+
+    // Initialize players
+    const players = [
+      { color: 'red', position: -1 },
+      { color: 'green', position: -1 },
+      { color: 'blue', position: -1 },
+      { color: 'yellow', position: -1 }
+    ];
+
+    // Add players to the board
+    players.forEach(player => {
+      const playerToken = document.createElement('div');
+      playerToken.className = 'player';
+      playerToken.style.backgroundColor = player.color;
+      playerToken.dataset.player = player.color;
+      squares[0].appendChild(playerToken);
+    });
+
+    // Function to move a player
+    function movePlayer(playerIndex, steps) {
+      const player = players[playerIndex];
+      player.position += steps;
+      if (player.position >= 0) {
+        const currentSquare = squares[player.position % 16];
+        currentSquare.appendChild(document.querySelector(`[data-player="${player.color}"]`));
+      }
+    }
+
+    // Example: Move the first player 5 steps
+    movePlayer(0, 5);
+  </script>
+</body>
+</html>
